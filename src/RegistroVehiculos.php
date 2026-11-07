@@ -4,14 +4,18 @@ namespace App;
 
 class RegistroVehiculos
 {
+    private const ESTADO_INICIAL = 'disponible';
+    private const MENSAJE_PLACA_INVALIDA = 'La placa es obligatoria y no puede repetirse';
+
+    // Los vehículos se guardan con la placa como llave, así buscar una placa repetida es directo
     private array $vehiculos = [];
 
     public function registrar(string $placa, string $marca, string $modelo, int $anio): array
     {
-        $placa = strtoupper(trim($placa));
+        $placa = $this->normalizarPlaca($placa);
 
-        if ($placa === '' || isset($this->vehiculos[$placa])) {
-            throw new DatosInvalidosException('La placa es obligatoria y no puede repetirse');
+        if (!$this->placaSePuedeUsar($placa)) {
+            throw new DatosInvalidosException(self::MENSAJE_PLACA_INVALIDA);
         }
 
         $vehiculo = [
@@ -19,7 +23,7 @@ class RegistroVehiculos
             'marca' => $marca,
             'modelo' => $modelo,
             'anio' => $anio,
-            'estado' => 'disponible',
+            'estado' => self::ESTADO_INICIAL,
         ];
         $this->vehiculos[$placa] = $vehiculo;
 
@@ -29,5 +33,17 @@ class RegistroVehiculos
     public function listar(): array
     {
         return array_values($this->vehiculos);
+    }
+
+    // Quita espacios a los lados y pasa a mayúsculas, así «txy123» y «TXY123» son la misma placa
+    private function normalizarPlaca(string $placa): string
+    {
+        return strtoupper(trim($placa));
+    }
+
+    // La placa sirve si no está vacía y todavía no existe
+    private function placaSePuedeUsar(string $placa): bool
+    {
+        return $placa !== '' && !isset($this->vehiculos[$placa]);
     }
 }
