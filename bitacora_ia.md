@@ -98,6 +98,33 @@ Agente de código: no usé ninguno en la semana 6; los cambios los hice en la ra
 - **Verificación:** Revisé HU-03 y el RNF-05: solo piden placa obligatoria y única. Anoté el riesgo en H-06 del informe.
 - **Commit relacionado:** 6d33361 «Informe revision_seguridad.md…»
 
+### Entrada 11 — Semana 7: diseño y revisión de casos
+
+- **Fecha:** 2026-11-26
+- **Herramienta:** ChatGPT (apoyo para proponer particiones y tabla de decisión)
+- **Prompt:** «A partir de HU-03 y del contrato de `RegistroVehiculos`, diseña particiones de equivalencia, valores límite y tabla de decisión para `registrar` y `listar`. Separa las combinaciones alcanzables; no inventes formato de placa, reglas para marca/modelo/año ni funciones que el repositorio no implementa.»
+- **Resultado propuesto:** casos ordinarios, placa vacía, duplicada, equivalencia tras normalizar, estado de la lista después del error y orden de consulta.
+- **Decisión:** Acepté la estructura de casos y corregí la tabla para marcar como inalcanzable una placa que fuera vacía y repetida al mismo tiempo. Reutilicé las pruebas de semanas anteriores en lugar de duplicarlas.
+- **Verificación:** Comparé cada esperado con HU-03, el README y el código. Dejé los casos de la semana 5/6 como evidencia existente y limité los nuevos a datos sintéticos no cubiertos, controles/BOM y orden de listado. No cambié reglas de producción.
+
+### Entrada 12 — Semana 7: generación de pruebas
+
+- **Fecha:** 2026-11-26
+- **Herramienta:** ChatGPT (propuesta de pruebas PHPUnit)
+- **Prompt:** «Escribe pruebas PHPUnit para los casos revisados usando `@dataProvider`, `assertSame` con valores esperados fijos y `DatosInvalidosException` exacta. Usa fixtures PHP para los datos sintéticos. El proyecto es PHP; no conviertas a pytest y no edites `src/`.»
+- **Resultado propuesto:** una suite parametrizada en `tests/RegistroVehiculosSemana7Test.php` y datos en `tests/Fixtures/vehiculos_sinteticos.php`.
+- **Decisión:** Acepté los proveedores de datos; descarté afirmaciones débiles (`not null`), excepciones genéricas, validaciones de formato no pedidas y casos redundantes con pruebas de semanas previas. Adapté la instrucción genérica de `pytest` al stack real PHPUnit del repositorio.
+- **Verificación:** Revisé los valores esperados contra HU-03 y el contrato. Esta preparación no tiene PHP/Composer/PHPUnit, así que no afirmo que `composer test` haya pasado. La limitación y el comando para verificarlo están en `registro_pruebas.md`.
+
+### Entrada 13 — Semana 7: datos sintéticos
+
+- **Fecha:** 2026-11-26
+- **Herramienta:** ChatGPT (sugerencia de casos sintéticos, revisados por el estudiante)
+- **Prompt:** «Propón datos ficticios para pruebas de un registro de vehículos: incluye tildes/ñ, apóstrofo, texto vacío y cero; no uses personas reales ni teléfonos. No supongas validaciones de negocio que no estén escritas.»
+- **Resultado propuesto:** `Peña`, `O'Río`, marca y modelo vacíos, año 0, además de entradas de placa para espacios, invisibles, control y UTF-8 inválido.
+- **Decisión:** Acepté únicamente datos aplicables a las reglas existentes. No generé clientes, teléfonos ni datos personales porque la funcionalidad de HU-03 no los necesita.
+- **Verificación:** Confirmé que los datos viven en `tests/Fixtures/vehiculos_sinteticos.php` y que no se usan para agregar validaciones de marca, modelo o año. La ejecución automatizada está pendiente por falta del entorno PHP en esta preparación.
+
 ## Resumen
 
 | Decisión | Cantidad |

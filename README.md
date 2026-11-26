@@ -104,7 +104,7 @@ Imprime el vehículo con la placa `TXY123` y el estado `disponible`.
 vendor/bin/phpunit        # o: composer test
 ```
 
-Salen 12 pruebas: las 8 de la semana 5 (2 normales, 4 de límite y 2 de error) y 4 pruebas de abuso de la
+La suite conserva las pruebas de semanas 5 y 6: las 8 de la semana 5 (2 normales, 4 de límite y 2 de error) y 4 pruebas de abuso de la
 semana 6 (`tests/RegistroVehiculosAbusoTest.php`: espacios Unicode, caracteres invisibles y texto que no es
 UTF-8).
 
@@ -122,12 +122,13 @@ El informe de la revisión está en [`revision_seguridad.md`](revision_seguridad
 
 ```
 src/                   código de la funcionalidad (RegistroVehiculos, DatosInvalidosException)
-tests/                 pruebas con PHPUnit (normales, de límite, de error y de abuso)
+tests/                 pruebas PHPUnit de semanas 5 a 7 y fixtures sintéticos
 phpcs.xml              reglas del linter (PSR-12 + phpcs-security-audit)
 phpstan.neon           configuración del análisis estático
 .env.example           variables de entorno futuras, sin valores
 revision_seguridad.md  informe de la revisión de código y de seguridad (semana 6)
 bitacora_ia.md         registro de lo que sugirió la IA y qué decidí
+registro_pruebas.md    casos, decisiones, mutaciones y datos sintéticos (semana 7)
 ```
 
 ## 7. Uso de IA
