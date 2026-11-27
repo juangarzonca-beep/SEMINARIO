@@ -76,13 +76,13 @@ Las dos condiciones observables son: **A)** la placa queda no vacía tras normal
 
 ## 3. Romper el código a propósito
 
-La suite base se ejecutó en Windows con PHP 8.3.36, Composer 2.11.2 y `mbstring` habilitada: `composer test` terminó con `OK (18 tests, 35 assertions)`. La primera mutación sí se ejecutó y fue detectada. Las mutaciones 2 y 3 no se ejecutaron por falta de tiempo; sus efectos se describen abajo como predicciones basadas en el código, no como resultados observados.
+La suite base se ejecutó en Windows con PHP 8.3.36, Composer 2.11.2 y `mbstring` habilitada: `composer test` terminó con `OK (18 tests, 35 assertions)`. El estudiante confirmó que ejecutó las tres mutaciones y que las mutaciones 2 y 3 dieron los efectos previstos. Se registran como resultados reportados por él; no se agregan conteos que no fueron compartidos.
 
 | Mutación temporal (una por vez) | Prueba que debe fallar si se ejecuta | Resultado observado o esperado | Cómo revertir |
 |---|---|---|---|
 | Cambiar `$placa !== ''` por `$placa === ''` en `placaSePuedeUsar` | Las pruebas de datos válidos fallan y las de placa vacía dejan pasar la entrada | Detectada: `composer test` reportó 12 errores y 5 fallos; código de salida 2 | Restaurar la condición original `!==` en `src/RegistroVehiculos.php` |
-| Quitar `mb_strtoupper($limpia, 'UTF-8')` de `normalizarPlaca` | `test_guarda_la_placa_en_mayusculas_y_sin_espacios_a_los_lados` y `test_la_misma_placa_escrita_en_minusculas_cuenta_como_repetida` | **Predicción, no ejecutada:** deberían fallar la expectativa de mayúsculas y la detección de duplicado en minúsculas | Restaurar `return mb_strtoupper($limpia, 'UTF-8');` |
-| Cambiar `!isset($this->vehiculos[$placa])` por `isset($this->vehiculos[$placa])` | Registro de placa nueva y rechazo de una placa ya registrada | **Predicción, no ejecutada:** rechazaría placas nuevas y podría aceptar duplicadas; el resultado exacto debe confirmarse ejecutando la suite | Restaurar `!isset($this->vehiculos[$placa])` |
+| Quitar `mb_strtoupper($limpia, 'UTF-8')` de `normalizarPlaca` | `test_guarda_la_placa_en_mayusculas_y_sin_espacios_a_los_lados` y `test_la_misma_placa_escrita_en_minusculas_cuenta_como_repetida` | **Detectada (resultado reportado por el estudiante):** fallaron la expectativa de mayúsculas y la detección de duplicado en minúsculas, como se había previsto. No se registra conteo porque no fue compartido. | Restaurar `return mb_strtoupper($limpia, 'UTF-8');` |
+| Cambiar `!isset($this->vehiculos[$placa])` por `isset($this->vehiculos[$placa])` | Registro de placa nueva y rechazo de una placa ya registrada | **Detectada (resultado reportado por el estudiante):** rechazó placas nuevas y permitió el duplicado, como se había previsto. No se registra conteo porque no fue compartido. | Restaurar `!isset($this->vehiculos[$placa])` |
 
 **Comandos al ejecutar cada mutación:** `composer test` (o `vendor/bin/phpunit --testdox`). Después de cada experimento, restaurar el archivo y volver a ejecutar la suite limpia. No entregar la mutación activa.
 
@@ -101,4 +101,4 @@ La suite base se ejecutó en Windows con PHP 8.3.36, Composer 2.11.2 y `mbstring
 
 Composer también mostró el aviso no fatal de que el script personalizado `audit` se omite porque coincide con un comando integrado. No impidió la instalación ni la ejecución de PHPUnit.
 
-Las mutaciones 2 y 3 no se ejecutaron; sus efectos en la sección 3 son predicciones, no evidencia. La suite base sí fue ejecutada y pasó. Si se exige evidencia de las tres mutaciones, todavía habría que correrlas y anotar sus resultados observados.
+El estudiante reportó que ejecutó las mutaciones 2 y 3 y que los resultados coincidieron con las predicciones de la sección 3. Los conteos exactos de esas dos ejecuciones no fueron compartidos y por eso no se inventaron. La suite base fue ejecutada con resultado `OK (18 tests, 35 assertions)` antes de las mutaciones.
