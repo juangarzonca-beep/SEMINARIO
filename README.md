@@ -141,3 +141,21 @@ antes de aceptarlo o descartarlo. Todo está en [`bitacora_ia.md`](bitacora_ia.m
 
 Juan José Garzón Cárdenas, estudiante de la Fundación Escuela Tecnológica de Neiva (FET).
 Proyecto académico, sin licencia de código abierto por ahora.
+
+
+## 9. Documentación del cierre integrador
+
+Los documentos de cierre se organizaron en [docs/](docs/):
+
+- [Propuesta de HU-03](docs/propuesta.md)
+- [Requisitos y trazabilidad](docs/requisitos.md)
+- [Diseño implementado](docs/diseno.md) y [ADR-001](docs/ADR-001.md)
+- [Plan de pruebas](docs/plan_pruebas.md)
+- [Guía de instalación y ejecución](docs/guia_despliegue.md)
+- [Plan de operación y mantenimiento](docs/plan_operacion.md)
+- [Informe final en Markdown](docs/informe_final_integrador.md)
+- [Guion de sustentación](docs/sustentacion_guion.md)
+
+Estos documentos describen el alcance comprobable del repositorio. No afirman que haya una API, persistencia o despliegue productivo. Los artefactos originales de los primeros módulos y la evidencia de entrevista no se encontraron en el repo; los documentos de cierre se basan en el README, el código, las pruebas y la bitácora.
+
+El workflow de PHPUnit está en [GitHub Actions](.github/workflows/ci.yml). La ejecución registrada el 27 de noviembre de 2026 terminó correctamente en 14 segundos: [ver ejecución](https://github.com/juangarzonca-beep/SEMINARIO/actions/runs/46062207485).
