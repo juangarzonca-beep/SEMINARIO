@@ -76,11 +76,11 @@ Las dos condiciones observables son: **A)** la placa queda no vacía tras normal
 
 ## 3. Romper el código a propósito
 
-La máquina disponible para preparar esta entrega no tiene PHP, Composer ni PHPUnit instalados; por eso no puedo declarar resultados ejecutados. No alteré ni afirmo haber restaurado cambios en el código de producción. Dejé definidos los tres mutantes y el comando que debes correr en el entorno PHP del repositorio para completar evidencia real:
+La suite base se ejecutó en Windows con PHP 8.3.36, Composer 2.11.2 y `mbstring` habilitada: `composer test` terminó con `OK (18 tests, 35 assertions)`. Los tres experimentos de mutación siguen pendientes; registra en esta tabla el resultado observado de cada uno.
 
 | Mutación temporal (una por vez) | Prueba que debe fallar si se ejecuta | Resultado en esta preparación | Cómo revertir |
 |---|---|---|---|
-| Cambiar `$placa !== ''` por `$placa === ''` en `placaSePuedeUsar` | Casos de placa vacía deberían dejar de lanzar la excepción; casos válidos deberían fallar | No ejecutado: PHP/PHPUnit ausentes | `git restore src/RegistroVehiculos.php` |
+| Cambiar `$placa !== ''` por `$placa === ''` en `placaSePuedeUsar` | Casos de placa vacía deberían dejar de lanzar la excepción; casos válidos deberían fallar | Pendiente: falta ejecutar esta mutación | `git restore src/RegistroVehiculos.php` |
 | Quitar `mb_strtoupper($limpia, 'UTF-8')` de `normalizarPlaca` | Prueba de minúsculas/placa equivalente debería aceptar el duplicado | No ejecutado: PHP/PHPUnit ausentes | `git restore src/RegistroVehiculos.php` |
 | Cambiar `!isset($this->vehiculos[$placa])` por `isset($this->vehiculos[$placa])` | Prueba de placa repetida debería permitir el duplicado y fallar | No ejecutado: PHP/PHPUnit ausentes | `git restore src/RegistroVehiculos.php` |
 
@@ -92,13 +92,13 @@ La máquina disponible para preparar esta entrega no tiene PHP, Composer ni PHPU
 
 **Casos difíciles incluidos:** tilde y ñ (`Peña`), apóstrofo (`O'Río`), marca/modelo vacíos, año cero, cadena vacía, espacios, espacio no separable, carácter de ancho cero, NUL/BOM y bytes que no forman UTF-8. Los caracteres extremos se usan solo en la placa porque esa es la única entrada con una regla de normalización en este contrato.
 
-## 5. Ejecución pendiente en entorno PHP
+## 5. Ejecución de la suite base
 
-La guía original pide ejecutar pruebas y verificar que la suite esté verde. Este archivo y el código de pruebas quedaron listos, pero el entorno de preparación no incluye el intérprete PHP, así que no invento un resultado de ejecución. En el equipo donde ya instalaste dependencias, corre:
+**Entorno:** Windows, PHP 8.3.36, Composer 2.11.2 y extensión `mbstring` habilitada.
 
-```bash
-composer install
-composer test
-```
+- `composer install`: completó la instalación de dependencias. Como el proyecto no incluía `composer.lock`, Composer resolvió las versiones e hizo uno nuevo en la carpeta local.
+- `composer test`: **OK (18 tests, 35 assertions)**.
 
-Completa luego la tabla de mutaciones con el nombre de la prueba que realmente falló. Si alguna prueba no falla con una mutación, regístralo y agrega el caso faltante antes de entregar.
+Composer también mostró el aviso no fatal de que el script personalizado `audit` se omite porque coincide con un comando integrado. No impidió la instalación ni la ejecución de PHPUnit.
+
+**Pendiente:** ejecutar cada mutación de la sección 3, anotar qué prueba falla y restaurar el código. Al final, correr `composer test` otra vez para confirmar que vuelve a pasar.
