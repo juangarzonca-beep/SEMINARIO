@@ -80,7 +80,7 @@ La suite base se ejecutó en Windows con PHP 8.3.36, Composer 2.11.2 y `mbstring
 
 | Mutación temporal (una por vez) | Prueba que debe fallar si se ejecuta | Resultado en esta preparación | Cómo revertir |
 |---|---|---|---|
-| Cambiar `$placa !== ''` por `$placa === ''` en `placaSePuedeUsar` | Casos de placa vacía deberían dejar de lanzar la excepción; casos válidos deberían fallar | Pendiente: falta ejecutar esta mutación | `git restore src/RegistroVehiculos.php` |
+| Cambiar `$placa !== ''` por `$placa === ''` en `placaSePuedeUsar` | Las pruebas de datos válidos fallan y las de placa vacía dejan pasar la entrada | Detectada: `composer test` reportó 12 errores y 5 fallos; código de salida 2 | Restaurar la condición original `!==` en `src/RegistroVehiculos.php` |
 | Quitar `mb_strtoupper($limpia, 'UTF-8')` de `normalizarPlaca` | Prueba de minúsculas/placa equivalente debería aceptar el duplicado | No ejecutado: PHP/PHPUnit ausentes | `git restore src/RegistroVehiculos.php` |
 | Cambiar `!isset($this->vehiculos[$placa])` por `isset($this->vehiculos[$placa])` | Prueba de placa repetida debería permitir el duplicado y fallar | No ejecutado: PHP/PHPUnit ausentes | `git restore src/RegistroVehiculos.php` |
 
